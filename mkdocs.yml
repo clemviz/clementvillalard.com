@@ -24,6 +24,7 @@ theme:
 
 plugins:
   - search
+  - glightbox
 
 nav:
   - About: index.md
