@@ -23,7 +23,6 @@ theme:
     accent: teal
 
 plugins:
-  - glightbox
   - search
 
 nav:
