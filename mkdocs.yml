@@ -1,35 +1,49 @@
-site_name: Clement Villalard
+site_name: Clément Villalard
 site_url: https://clementvillalard.com
 theme:
   name: material
   features:
     - content.code.copy
     - navigation.footer
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.expand
+    - navigation.indexes
   logo: assets/owl_athena.png
   favicon: assets/owl_favicon.ico
   font:
-    text: Roboto
-    code: Roboto Mono
+    text: IBM Plex Sans
+    code: IBM Plex Mono
   palette:
-    # Dark Mode
-    - scheme: slate
-      toggle:
-        icon: material/weather-sunny
-        name: Dark mode
-      primary: amber
-      accent: yellow
-
     # Light Mode
-    - scheme: default
-      toggle:
-        icon: material/weather-night
-        name: Light mode
-      primary: orange
-      accent: deep orange
+    scheme: default
+    primary: blue grey
+    accent: teal
+
+plugins:
+  - glightbox
+  - search
+
+nav:
+  - About: index.md
+  #- Expertise: expertise.md
+  - Portfolio: portfolio.md
+  - Deneb Templates:
+    - Gallery: Deneb/index.md
+    - Basic Histogram: Deneb/histogram.md
+    - Small Multiples - Day of the Week: Deneb/smallmultipleday.md
+    - Line Chart Brush + Zoom effect: Deneb/linechartbrush.md
+  #- Themes: themes.md
+  - DAX/UDF: DAX.md
+  #- Blog
+
 
 # Extensions
 markdown_extensions:
   - attr_list
+  - md_in_html
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -44,12 +58,21 @@ markdown_extensions:
       alternate_style: true
   - admonition
   - pymdownx.details
+  - pymdownx.superfences: # This extension is for making diagrams
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
+extra_css:
+  - stylesheets/extra.css
 extra:
   social:
     - icon: material/linkedin
       link: https://www.linkedin.com/in/clementvillalard
     - icon: material/github
       link: https://github.com/clemviz
+    - icon: material/mail
+      link: mailto:clement_villalard@outlook.com
   generator: false
 copyright: Copyright &copy; 2025 Clement Villalard

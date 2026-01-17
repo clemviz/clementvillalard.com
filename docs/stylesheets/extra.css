@@ -1,0 +1,28 @@
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.social-icons .icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222222;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.social-icons .icon:hover {
+  transform: scale(1.25);
+}
+
+.icon.github:hover {
+  color: #000000; 
+}
+
+.icon.linkedin:hover {
+  color: #0A66C2; /* LinkedIn blue */
+}
