@@ -35,6 +35,13 @@ nav:
     - Basic Histogram: Deneb/histogram.md
     - Small Multiples - Day of the Week: Deneb/smallmultipleday.md
     - Line Chart Brush + Zoom effect: Deneb/linechartbrush.md
+    - KPI Card - Area: Deneb/kpi_card_area.md
+    - Calendar Heatmap with Histogram: Deneb/calendar_heatmap_histo.md
+    - Calendar Heatmap with Histogram - Compact version: Deneb/calendar_heatmap_histo_tiny.md
+    - Hourly Heatmap with Histogram: Deneb/hourly_heatmap_histo.md
+    - Hourly Heatmap with Bar charts: Deneb/hourly_heatmap_bars.md
+    - Shaded line chart with custom tooltip: Deneb/shaded_line_chart_tooltip.md
+
   #- Themes: themes.md
   - DAX/UDF: DAX.md
   #- Blog

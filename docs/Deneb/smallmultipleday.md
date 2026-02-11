@@ -5,7 +5,7 @@ hide:
     - navigation
 ---
 
-![Small Multiples - Day of the Week](img/small_multiples_day.jpeg)
+![Small Multiples - Day of the Week](img/faceted_line_chart_day.png)
 
 ```json linenums="1"
 {

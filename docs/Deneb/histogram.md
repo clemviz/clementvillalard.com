@@ -5,7 +5,7 @@ hide:
     - navigation
 ---
 
-![Histogram](img/histo.jpeg)
+![Histogram](img/basic_histogram.png)
 
 ```json linenums="1"
 {

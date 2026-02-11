@@ -14,8 +14,6 @@ I build intuitive dashboards and automated reporting solutions that transform co
 
 I'm a problem solver and insights facilitator at heart, helping businesses make smarter, data-driven decisions.
 
-[:octicons-arrow-right-24: See my portfolio](/portfolio)
-
 <div class="social-icons">
   <a href="https://github.com/clemviz" target="_blank" class="icon github" aria-label="GitHub">
     <svg role="img" viewBox="0 0 24 24" fill="currentColor">

@@ -5,7 +5,7 @@ hide:
     - navigation
 ---
 
-![Line Chart Brush + Zoom](img/linechartbrush.jpeg)
+![Line Chart Brush + Zoom](img/brush_line_chart.png)
 
 ```json linenums="1"
 {
