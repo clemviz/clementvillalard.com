@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!--
+    ✏️ UPDATE THESE FOR EACH POST:
+    - <title>: Post title | Clément Villalard
+    - <meta name="description">: 1–2 sentence summary
+    - og:title, og:description, og:url
+  -->
+  <title>Post Title | Clément Villalard — BI & Data</title>
+  <meta name="description" content="A short description of this post — used in search results and social shares." />
+
+  <meta property="og:title" content="Post Title | Clément Villalard" />
+  <meta property="og:description" content="A short description of this post." />
+  <meta property="og:url" content="https://clementvillalard.com/blog/post-slug-here.html" />
+  <meta property="og:type" content="article" />
+
+  <!-- Schema.org: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Post Title",
+    "author": { "@type": "Person", "name": "Clément Villalard", "url": "https://clementvillalard.com" },
+    "datePublished": "2026-04-11",
+    "url": "https://clementvillalard.com/blog/post-slug-here.html"
+  }
+  </script>
+
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <style>
+    /* ---- Post hero ---- */
+    .post-hero {
+      background: var(--dark);
+      padding: 5rem 0 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .post-date {
+      font-size: 0.875rem;
+      color: var(--body-grey);
+    }
+
+    /* ---- Cover image ---- */
+    .post-cover {
+      background: #f3f3f3;
+      border: 2px dashed #ddd;
+      aspect-ratio: 21/9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 0.8125rem;
+      gap: 0.5rem;
+      border-radius: 8px;
+      margin-bottom: 3rem;
+    }
+
+    /* ---- Post body prose ---- */
+    .post-body {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-body);
+      max-width: 720px;
+    }
+    .post-body h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 2.5rem 0 0.875rem;
+      line-height: 1.25;
+    }
+    .post-body h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 2rem 0 0.625rem;
+    }
+    .post-body p { margin-bottom: 1.25rem; }
+    .post-body a { color: var(--teal); }
+    .post-body a:hover { opacity: 0.8; }
+    .post-body ul,
+    .post-body ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .post-body li { color: var(--text-body); line-height: 1.7; }
+    .post-body blockquote {
+      border-left: 3px solid var(--teal);
+      padding: 0.25rem 0 0.25rem 1.25rem;
+      color: var(--text-mid);
+      font-style: italic;
+      margin: 1.5rem 0;
+    }
+    .post-body pre {
+      background: #1a1a1a;
+      color: #e0e0e0;
+      padding: 1.25rem 1.5rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.875rem;
+      line-height: 1.65;
+      margin: 1.5rem 0;
+    }
+    .post-body code {
+      font-family: 'Consolas', 'Menlo', monospace;
+    }
+    .post-body p code,
+    .post-body li code {
+      background: #f0f0f0;
+      color: #c0392b;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      font-size: 0.875em;
+    }
+    .post-body img {
+      width: 100%;
+      border-radius: 6px;
+      margin: 1.5rem 0;
+      border: 1px solid #e8e8e8;
+    }
+    .post-body hr {
+      border: none;
+      border-top: 1px solid #e8e8e8;
+      margin: 2.5rem 0;
+    }
+
+    /* ---- Author bio ---- */
+    .post-author {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.75rem;
+      background: var(--light-bg);
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      margin-top: 3rem;
+    }
+    .post-author-avatar {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      border: 2px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+    }
+    .post-author-name {
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--text-dark);
+      margin-bottom: 0.25rem;
+    }
+    .post-author-bio {
+      font-size: 0.875rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    /* ---- Back link ---- */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.875rem;
+      color: var(--body-grey);
+      text-decoration: none;
+      margin-bottom: 2.5rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--white); }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html#home" class="nav-logo" aria-label="Excelsior BI — Home">
+        <img src="../img/logos/logo_transparent.svg" alt="Excelsior BI" class="nav-logo-img" aria-hidden="true">
+      </a>
+      <div class="nav-links">
+        <a href="../index.html#home"      class="nav-link">Home</a>
+        <a href="../index.html#about"     class="nav-link">About</a>
+        <a href="../index.html#services"  class="nav-link">Services</a>
+        <a href="../index.html#portfolio" class="nav-link">Portfolio</a>
+        <a href="index.html"              class="nav-link active">Blog</a>
+        <a href="../index.html#contact"   class="nav-cta">Contact</a>
+      </div>
+      <button id="hamburger" class="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu" role="menu">
+      <a href="../index.html#home"      role="menuitem">Home</a>
+      <a href="../index.html#about"     role="menuitem">About</a>
+      <a href="../index.html#services"  role="menuitem">Services</a>
+      <a href="../index.html#portfolio" role="menuitem">Portfolio</a>
+      <a href="index.html"              role="menuitem">Blog</a>
+      <a href="../index.html#contact"   class="mobile-cta" role="menuitem">Contact</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+
+    <!-- ============================================================
+         POST HERO
+         ============================================================ -->
+    <div class="post-hero">
+      <div class="container-narrow">
+
+        <a href="index.html" class="back-link" aria-label="Back to all posts">
+          ← All posts
+        </a>
+
+        <!-- ✏️ Post metadata -->
+        <div class="post-meta">
+          <span class="blog-card-date post-date">11 Apr 2026</span>
+          <!-- ✏️ Add/remove category tags as needed -->
+          <span class="tag">Power BI</span>
+          <span class="tag-neutral">DAX</span>
+        </div>
+
+        <!-- ✏️ Post title -->
+        <h1 class="page-title">Post Title Goes Here</h1>
+
+        <!-- ✏️ Optional subtitle / standfirst -->
+        <p class="section-subtitle-light" style="max-width: 600px;">
+          A one or two-sentence summary that draws the reader in and sets up what this article covers.
+        </p>
+
+      </div>
+    </div>
+
+    <!-- ============================================================
+         POST CONTENT
+         ============================================================ -->
+    <article class="section" style="background: var(--white);">
+      <div class="container-narrow">
+
+        <!-- ✏️ Replace with a real cover image once you have one:
+             <img src="../img/blog/your-cover-image.jpg" alt="Descriptive alt text" class="post-cover" style="aspect-ratio:21/9; object-fit:cover;">
+        -->
+        <div class="post-cover" role="img" aria-label="Cover image placeholder">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.25" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span>Replace with cover image — recommended 1600�, 686px</span>
+        </div>
+
+        <!-- ✏️ Write your article content below using standard HTML or copy-paste from a Markdown preview.
+             Remove any sections you don't need. -->
+        <div class="post-body">
+
+          <p>
+            This is the opening paragraph. Hook the reader here — start with a compelling insight, a question, or the problem you're addressing. Keep it punchy.
+          </p>
+
+          <h2>First Section Heading</h2>
+          <p>
+            Expand on your first point here. Aim for clear, outcome-focused writing — what does the reader need to understand or be able to do after reading this section?
+          </p>
+          <p>
+            You can add as many paragraphs as needed. Use short paragraphs for blog writing — three to four sentences each works well.
+          </p>
+
+          <blockquote>
+            Use a blockquote for a key insight, a memorable one-liner, or a quote from someone else you want to highlight.
+          </blockquote>
+
+          <h2>Second Section Heading</h2>
+          <p>
+            Continue the article here. If you have a step-by-step process, an ordered list works well:
+          </p>
+          <ol>
+            <li>Step one — describe it clearly.</li>
+            <li>Step two — include any important caveats.</li>
+            <li>Step three — show the outcome or result.</li>
+          </ol>
+
+          <h3>A Sub-point if Needed</h3>
+          <p>
+            Use <code>h3</code> headings for sub-sections within a larger section. Keep them optional — not every section needs one.
+          </p>
+
+          <!-- ✏️ Code block example — useful for DAX, Vega-Lite JSON, Python, etc. -->
+          <pre><code>// ✏️ Paste your DAX, Vega-Lite JSON, Python, or other code here
+Sales YTD =
+TOTALYTD( [Total Sales], 'Date'[Date] )</code></pre>
+
+          <h2>Third Section Heading</h2>
+          <p>
+            Wrap up the main body of the article here. Summarise what you've covered and set up the conclusion.
+          </p>
+
+          <hr>
+
+          <h2>Conclusion</h2>
+          <p>
+            End with a clear takeaway. What should the reader do next? What's the single most important thing to remember from this article?
+          </p>
+          <p>
+            If relevant, link to related posts or to your portfolio/services. Keep CTAs natural and helpful, not pushy.
+          </p>
+
+        </div><!-- /.post-body -->
+
+        <!-- Author bio -->
+        <div class="post-author">
+          <div class="post-author-avatar" aria-hidden="true">
+            <!-- ✏️ Replace with <img src="../img/profiles/your-photo.jpg" alt="Clément Villalard"> -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="post-author-name">Clément Villalard</div>
+            <p class="post-author-bio">
+              Freelance Senior BI Developer &amp; Power BI Consultant. I build end-to-end BI solutions and bespoke data visualisations. Based in the UK, working remotely.
+            </p>
+          </div>
+        </div>
+
+        <!-- Navigation between posts -->
+        <div class="flex justify-between items-center mt-10" style="flex-wrap: wrap; gap: 1rem;">
+          <a href="index.html" class="btn btn-outline">← All posts</a>
+          <!-- ✏️ Optionally link to the next post:
+          <a href="next-post.html" class="btn btn-outline">Next post →</a>
+          -->
+        </div>
+
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="text-xs" style="color: #555;">© 2026 Clément Villalard. All rights reserved.</p>
+        <p class="footer-tagline">Elevate your insights</p>
+        <div class="hero-social">
+          <a href="https://www.linkedin.com/in/clementvillalard" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="LinkedIn profile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/clemviz" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="GitHub profile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---- Mobile nav toggle ----
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+        const spans = hamburger.querySelectorAll('span');
+        const isOpen = mobileMenu.classList.contains('open');
+        spans[0].style.transform = isOpen ? 'translateY(7px) rotate(45deg)' : '';
+        spans[1].style.opacity  = isOpen ? '0' : '';
+        spans[2].style.transform = isOpen ? 'translateY(-7px) rotate(-45deg)' : '';
+      });
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          hamburger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+        });
+      });
+    }
+  </script>
+</body>
+</html>

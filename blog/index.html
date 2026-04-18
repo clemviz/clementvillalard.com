@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Clément Villalard — BI & Data</title>
+  <meta name="description" content="Articles on Power BI, Deneb/Vega-Lite, DAX, data modelling and data visualisation by Clément Villalard." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Blog | Clément Villalard" />
+  <meta property="og:description" content="Articles on Power BI, DAX, Deneb and data visualisation." />
+  <meta property="og:url" content="https://clementvillalard.com/blog/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <style>
+    /* ---- Blog listing card ---- */
+    .blog-card {
+      background: var(--white);
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .blog-card:hover {
+      box-shadow: 0 6px 28px rgba(0,0,0,0.08);
+      border-color: var(--teal);
+    }
+    .blog-card-thumb {
+      background: #f3f3f3;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 0.8125rem;
+      flex-direction: column;
+      gap: 0.5rem;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .blog-card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .blog-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .blog-card-date {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+    }
+    .blog-card-title {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      line-height: 1.35;
+      margin-bottom: 0.625rem;
+    }
+    .blog-card-excerpt {
+      font-size: 0.9rem;
+      color: var(--text-body);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 1.25rem;
+    }
+    .blog-card-read-more {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    /* ---- Filter pills ---- */
+    .blog-filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .blog-filter-btn {
+      padding: 0.4375rem 1.125rem;
+      border-radius: 999px;
+      border: 1.5px solid #d0d0d0;
+      background: var(--white);
+      color: var(--text-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .blog-filter-btn:hover   { border-color: var(--teal); color: var(--teal); }
+    .blog-filter-btn.active  { background: var(--teal); border-color: var(--teal); color: #fff; }
+
+    /* ---- Responsive grid ---- */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="../index.html#home" class="nav-logo" aria-label="Excelsior BI — Home">
+        <img src="../img/logos/logo_transparent.svg" alt="Excelsior BI" class="nav-logo-img" aria-hidden="true">
+      </a>
+      <div class="nav-links">
+        <a href="../index.html#home"      class="nav-link">Home</a>
+        <a href="../index.html#about"     class="nav-link">About</a>
+        <a href="../index.html#services"  class="nav-link">Services</a>
+        <a href="../index.html#portfolio" class="nav-link">Portfolio</a>
+        <a href="index.html"              class="nav-link active">Blog</a>
+        <a href="../index.html#contact"   class="nav-cta">Contact</a>
+      </div>
+      <button id="hamburger" class="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu" role="menu">
+      <a href="../index.html#home"      role="menuitem">Home</a>
+      <a href="../index.html#about"     role="menuitem">About</a>
+      <a href="../index.html#services"  role="menuitem">Services</a>
+      <a href="../index.html#portfolio" role="menuitem">Portfolio</a>
+      <a href="index.html"              role="menuitem">Blog</a>
+      <a href="../index.html#contact"   class="mobile-cta" role="menuitem">Contact</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+
+    <!-- ============================================================
+         PAGE HERO
+         ============================================================ -->
+    <div class="page-hero">
+      <div class="container">
+        <span class="overline">Blog</span>
+        <h1 class="page-title">Thoughts on BI & Data</h1>
+        <p class="section-subtitle-light" style="max-width: 520px;">
+          Practical articles on Power BI, DAX, Deneb/Vega-Lite, data modelling and the craft of data visualisation.
+        </p>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         BLOG LISTING
+         ============================================================ -->
+    <section class="section" style="background: var(--light-bg);">
+      <div class="container">
+
+        <!-- Category filter -->
+        <div class="blog-filter-bar" role="group" aria-label="Filter posts by category">
+          <button class="blog-filter-btn active" data-filter="all">All posts</button>
+          <button class="blog-filter-btn" data-filter="power-bi">Power BI</button>
+          <button class="blog-filter-btn" data-filter="dax">DAX</button>
+          <button class="blog-filter-btn" data-filter="deneb">Deneb</button>
+          <button class="blog-filter-btn" data-filter="matplotlib">Matplotlib</button>
+        </div>
+
+        <div class="blog-grid" id="blog-grid">
+
+          <!--
+            ✏️ HOW TO ADD A NEW POST:
+            1. Duplicate one of the <article> blocks below
+            2. Update: href, data-categories, date, category tag(s), title, excerpt
+            3. Create the matching post file in this folder (copy post-template.html)
+            4. Remove the "placeholder" class and the thumb placeholder SVG — replace with a real <img>
+          -->
+
+          <!-- Post 01 — placeholder -->
+          <article class="blog-card" data-categories="power-bi dax">
+            <a href="why-power-bi-changed-how-i-think-about-data.html" class="blog-card-thumb" tabindex="-1" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.25">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+              </svg>
+              <span>Cover image</span>
+            </a>
+            <div class="blog-card-body">
+              <div class="blog-card-meta">
+                <span class="blog-card-date">11 Apr 2026</span>
+                <span class="tag">Power BI</span>
+                <span class="tag-neutral">DAX</span>
+              </div>
+              <h2 class="blog-card-title">Why Power BI Changed How I Think About Data</h2>
+              <p class="blog-card-excerpt">
+                After years working with various BI tools, Power BI's combination of data modelling depth and visual flexibility set it apart. Here's what that journey looked like.
+              </p>
+              <a href="why-power-bi-changed-how-i-think-about-data.html" class="blog-card-read-more">Read article →</a>
+            </div>
+          </article>
+
+          <!-- Post 02 — placeholder -->
+          <article class="blog-card" data-categories="deneb">
+            <a href="getting-started-with-deneb-vega-lite.html" class="blog-card-thumb" tabindex="-1" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.25">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+              <span>Cover image</span>
+            </a>
+            <div class="blog-card-body">
+              <div class="blog-card-meta">
+                <span class="blog-card-date">11 Apr 2026</span>
+                <span class="tag">Deneb</span>
+              </div>
+              <h2 class="blog-card-title">Getting Started with Deneb / Vega-Lite in Power BI</h2>
+              <p class="blog-card-excerpt">
+                Deneb unlocks a completely different level of custom visuals inside Power BI. This is the introduction I wish I'd had when I first opened the editor.
+              </p>
+              <a href="getting-started-with-deneb-vega-lite.html" class="blog-card-read-more">Read article →</a>
+            </div>
+          </article>
+
+          <!-- Post 03 — placeholder -->
+          <article class="blog-card" data-categories="matplotlib">
+            <a href="publication-grade-charts-with-matplotlib.html" class="blog-card-thumb" tabindex="-1" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.25">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Cover image</span>
+            </a>
+            <div class="blog-card-body">
+              <div class="blog-card-meta">
+                <span class="blog-card-date">11 Apr 2026</span>
+                <span class="tag-neutral">Matplotlib</span>
+              </div>
+              <h2 class="blog-card-title">Publication-grade Charts with Matplotlib</h2>
+              <p class="blog-card-excerpt">
+                Most Matplotlib charts look like default output. Here's the approach I use to produce print-ready, brand-consistent visuals that actually get used in boardroom decks.
+              </p>
+              <a href="publication-grade-charts-with-matplotlib.html" class="blog-card-read-more">Read article →</a>
+            </div>
+          </article>
+
+        </div><!-- /#blog-grid -->
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="text-xs" style="color: #555;">© 2026 Clément Villalard. All rights reserved.</p>
+        <p class="footer-tagline">Elevate your insights</p>
+        <div class="hero-social">
+          <a href="https://www.linkedin.com/in/clementvillalard" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="LinkedIn profile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/clemviz" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="GitHub profile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---- Mobile nav toggle ----
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+        const spans = hamburger.querySelectorAll('span');
+        const isOpen = mobileMenu.classList.contains('open');
+        spans[0].style.transform = isOpen ? 'translateY(7px) rotate(45deg)' : '';
+        spans[1].style.opacity  = isOpen ? '0' : '';
+        spans[2].style.transform = isOpen ? 'translateY(-7px) rotate(-45deg)' : '';
+      });
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          hamburger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+        });
+      });
+    }
+
+    // ---- Blog category filter ----
+    const filterBtns = document.querySelectorAll('.blog-filter-btn');
+    const posts      = document.querySelectorAll('#blog-grid article');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        posts.forEach(post => {
+          const cats = post.dataset.categories || '';
+          post.style.display = (filter === 'all' || cats.includes(filter)) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

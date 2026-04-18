@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clément Villalard | BI & Data</title>
+  <meta name="description" content="Clément Villalard — Power BI consultant specialising in end-to-end BI solutions, bespoke data visualisation and Deneb/Vega-Lite templates." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Clément Villalard | BI & Data" />
+  <meta property="og:description" content="Power BI consultant specialising in end-to-end BI solutions and bespoke data visualisation." />
+  <meta property="og:url" content="https://clementvillalard.com" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="img/logos/logo_transparent.svg" />
+
+  <!-- Schema.org: Person + Services -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Clément Villalard",
+    "url": "https://clementvillalard.com",
+    "jobTitle": "Power BI Consultant",
+    "brand": { "@type": "Brand", "name": "Excelsior BI" },
+    "sameAs": ["https://linkedin.com/in/[your-linkedin-handle]"],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "itemListElement": [
+        { "@type": "Service", "name": "End-to-end BI Solutions", "description": "Complete Power BI solutions from data modelling and DAX through to executive dashboards and user adoption." },
+        { "@type": "Service", "name": "Bespoke Data Visualisation", "description": "Custom visuals using Deneb/Vega-Lite inside Power BI and publication-grade Matplotlib visualisations." }
+      ]
+    }
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" href="img/logos/logo_transparent.svg" type="image/svg+xml" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* ---- Single-page scroll offsets ---- */
+    .scroll-target      { scroll-margin-top: 80px; }
+    .scroll-target-deep { scroll-margin-top: 120px; } /* below nav + sticky portfolio tabs */
+
+    /* ---- Portfolio tab nav ---- */
+    .portfolio-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid #e8e8e8;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .portfolio-tab {
+      display: inline-block;
+      padding: 0.875rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #888;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .portfolio-tab:hover { color: var(--text-dark); }
+    .portfolio-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+    /* ---- Matplotlib showcase card ---- */
+    .matplot-card {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .matplot-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+    .matplot-image {
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+    }
+    @media (max-width: 640px) {
+      #matplotlib .matplot-grid { grid-template-columns: 1fr !important; }
+    }
+
+    /* ---- Certifications strip ---- */
+    .certs-strip {
+      background: var(--light-bg);
+      border-top: 1px solid #e8e8e8;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 2rem 0;
+    }
+    .certs-list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .cert-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .cert-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: default;
+    }
+    .cert-item:hover .cert-logo {
+      transform: scale(1.12);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+    }
+    .cert-tooltip {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-dark);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+      padding: 0.35rem 0.65rem;
+      border-radius: 4px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      z-index: 10;
+    }
+    .cert-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--text-dark);
+    }
+    .cert-item:hover .cert-tooltip { opacity: 1; }
+
+    /* ---- Contact form label colour on dark background ---- */
+    #contact .form-label { color: var(--body-grey); }
+
+    /* ---- Lightbox ---- */
+    .lightbox-trigger {
+      display: block;
+      cursor: zoom-in;
+      width: 100%;
+    }
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.88);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-overlay img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 6px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+      object-fit: contain;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .lightbox-close:hover { opacity: 1; }
+
+    /* ---- Portfolio two-tab nav: button reset ---- */
+    button.portfolio-tab {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ---- Visuals filter bar ---- */
+    .visuals-filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 1.25rem 0 1.5rem;
+    }
+    .filter-btn {
+      padding: 0.4375rem 1.125rem;
+      border-radius: 999px;
+      border: 1.5px solid #d0d0d0;
+      background: var(--white);
+      color: var(--text-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .filter-btn:hover  { border-color: var(--teal); color: var(--teal); }
+    .filter-btn.active { background: var(--teal); border-color: var(--teal); color: #fff; }
+
+    /* ---- Services three-pillar layout ---- */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    @media (max-width: 768px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+    .service-pillar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border: 1px solid #e8e8e8;
+      border-radius: 10px;
+      background: var(--white);
+      transition: box-shadow 0.2s;
+    }
+    .service-pillar:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .service-icon-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(42, 157, 143, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      flex-shrink: 0;
+    }
+    .service-pillar-title {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.625rem;
+    }
+    .service-pillar-desc {
+      font-size: 0.9rem;
+      color: var(--text-body);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+    .service-expand-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--teal);
+      background: transparent;
+      color: var(--teal);
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .service-expand-btn:hover,
+    .service-expand-btn[aria-expanded="true"] {
+      background: var(--teal);
+      color: #fff;
+    }
+    .service-detail {
+      grid-column: 1 / -1;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+    .service-detail.open {
+      max-height: 700px;
+      opacity: 1;
+    }
+    .service-detail-inner {
+      background: var(--light-bg);
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 2rem 2.5rem;
+      margin-top: 0.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 640px) {
+      .service-detail-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo" aria-label="Excelsior BI — Home">
+        <img src="img/logos/logo_transparent.svg" alt="Excelsior BI" class="nav-logo-img" aria-hidden="true">
+      </a>
+      <!-- Desktop links -->
+      <div class="nav-links">
+        <a href="#home"      class="nav-link">Home</a>
+        <a href="#about"     class="nav-link">About</a>
+        <a href="#services"  class="nav-link">Services</a>
+        <a href="#portfolio" class="nav-link">Portfolio</a>
+        <!--<a href="blog/index.html" class="nav-link">Blog</a>-->
+        <a href="#contact"   class="nav-cta">Contact</a>
+      </div>
+      <!-- Mobile hamburger -->
+      <button id="hamburger" class="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="mobile-menu" role="menu">
+      <a href="#home"      role="menuitem">Home</a>
+      <a href="#about"     role="menuitem">About</a>
+      <a href="#services"  role="menuitem">Services</a>
+      <a href="#portfolio"     role="menuitem">Portfolio</a>
+      <!--<a href="blog/index.html" role="menuitem">Blog</a>-->
+      <a href="#contact"        class="mobile-cta" role="menuitem">Contact</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section id="home" class="hero-section" aria-label="Introduction">
+      <div class="container">
+        <div class="hero-centered">
+
+          <img src="img/logos/full_logo_vertical.svg" alt="Excelsior BI" class="hero-logo-img">
+
+          <p class="section-subtitle-light" style="text-align: center; max-width: 480px;">
+            Hi, I'm a freelance <b>Senior BI Developer & Power BI Consultant</b>. I build end-to-end <b>BI solutions</b> and bespoke data visualisations that elevate business insights and drive informed decision-making.
+          </p>
+
+          <a href="#contact" class="btn btn-primary">Contact</a>
+
+          <div class="hero-social">
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/clementvillalard" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="LinkedIn profile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
+            <!-- GitHub -->
+            <a href="https://github.com/clemviz" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="GitHub profile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         ABOUT — Background
+         ============================================================ -->
+    <section id="about" class="section scroll-target" style="background: var(--white);" aria-labelledby="background-heading">
+      <div class="container">
+        <div class="grid-2" style="gap: 4rem; align-items: start;">
+
+          <!-- Left: text -->
+          <div>
+            <span class="overline">About</span>
+
+            <!-- ✏️ Write your professional story here — 3–4 paragraphs, first person, outcome-focused. -->
+            <p style="color: var(--text-body); line-height: 1.8; margin-bottom: 1.25rem;">
+              Hi, my name is Clement. I specialise in helping organisations building end-to-end BI solutions. I excel in building dashboards and automated reports with Power BI
+            </p>
+            <p style="color: var(--text-body); line-height: 1.8; margin-bottom: 1.25rem;">
+              With a track record of 5+ years in Business Intelligence and Data Analysis, I've collaborated with leading energy consulting companies such as <a href="https://www.sefirst.com" target="_blank" rel="noopener noreferrer">Sustainable Energy First</a>.
+            </p>
+            <p style="color: var(--text-body); line-height: 1.8;">
+              I am now working as a freelance consultant, partnering with organisations to design and deliver tailored BI solutions that drive informed decision-making and business growth.
+            </p>
+
+            <div class="divider mt-8 mb-8"></div>
+
+            <div class="flex gap-8" style="flex-wrap: wrap;">
+              <div>
+                <div class="font-medium" style="font-size:0.8125rem; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.375rem;">Location</div>
+                <!-- ✏️ Your location -->
+                <div style="font-size:1.05rem; font-weight: 500;">Remote, UK</div>
+              </div>
+              <div>
+                <div class="font-medium" style="font-size:0.8125rem; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.375rem;">Engagement</div>
+                <div style="font-size:1.05rem; font-weight: 500;">Power BI · Data visualisation</div>
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <a href="resume.pdf" download class="btn btn-outline">Download my resume ↓</a>
+            </div>
+          </div>
+
+          <!-- Right: photo -->
+          <div class="photo-placeholder-light" style="min-height: 480px;" role="img" aria-label="Photo of Clément Villalard — placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.25" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Your photo here</span>
+            <span style="font-size:0.7rem; color: #bbb;">Recommended: portrait, 600�, 750px+</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CERTIFICATIONS STRIP
+         ============================================================ -->
+    <div class="certs-strip" aria-label="Certifications">
+      <div class="container">
+        <span class="overline" style="display:block; text-align:center; margin-bottom:1.5rem;">Certifications</span>
+        <ul class="certs-list">
+
+          <!-- PL-300: Microsoft Power BI Data Analyst -->
+          <li class="cert-item">
+            <div class="cert-logo" style="background: transparent;">
+              <img src="img/certif/microsoft-certified-associate-badge.svg" alt="Microsoft Certified Associate badge" style="width:64px; height:64px; object-fit:contain;" />
+            </div>
+            <span class="cert-tooltip">Microsoft Certified: Power BI Data Analyst Associate</span>
+          </li>
+
+          <!-- DataCamp: Data Analyst -->
+          <li class="cert-item">
+            <div class="cert-logo" style="background: transparent;">
+              <img src="img/certif/DA Associate - badge with outline.png" alt="DataCamp Data Analyst Associate badge" style="width:64px; height:64px; object-fit:contain;" />
+            </div>
+            <span class="cert-tooltip">Data Analyst Associate - DataCamp</span>
+          </li>
+
+          <!-- Lean Six Sigma Yellow Belt -->
+          <li class="cert-item">
+            <div class="cert-logo" style="background: transparent;">
+              <img src="img/certif/matplotlib_journey.png" alt="Matplotlib Journey badge" style="width:64px; height:64px; object-fit:contain;" />
+            </div>
+            <span class="cert-tooltip">Matplotlib Journey - Yan Holtz</span>
+          </li>
+
+          <!-- Radacad: Fabric from Rookie to Rockstar -->
+          <li class="cert-item">
+            <div class="cert-logo" style="background: transparent;">
+              <img src="img/certif/radacad.png" alt="Radacad Fabric from Rookie to Rockstar badge" style="width:64px; height:64px; object-fit:contain;" />
+            </div>
+            <span class="cert-tooltip">Fabric from Rookie to Rockstar - Radacad</span>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         PHILOSOPHY
+         ============================================================ -->
+    <section id="philosophy" class="section scroll-target" style="background: var(--white);" aria-labelledby="philosophy-heading">
+      <div class="container">
+        <span class="overline">Philosophy</span>
+
+        <p style="color: var(--text-body); line-height: 1.8; margin-bottom: 1.25rem;">
+          To me, good BI isn’t just about building pretty dashboards. It’s about creating scalable, maintainable solutions that drive real business value.
+        </p>
+        <p style="color: var(--text-body); line-height: 1.8; margin-bottom: 1.25rem;">
+          I focus on efficiency and automation in every solution I build. The goal is simple: reduce manual effort, improve data reliability, and help teams make faster, better decisions.
+        </p>
+        <p style="color: var(--text-body); line-height: 1.8;">
+          While Power BI is powerful out of the box, the real value comes from pushing it further. Using advanced DAX, custom visuals, and Microsoft Fabric, I build tailored solutions that go beyond reporting, turning data into a true competitive advantage.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SERVICES
+         ============================================================ -->
+    <section id="services" class="section scroll-target" style="background: var(--light-bg);" aria-labelledby="services-heading">
+      <div class="container">
+
+        <div class="mb-10">
+          <span class="overline">Services</span>
+          <h2 class="section-title" id="services-heading">What I can do for you.</h2>
+          <p class="section-subtitle">Specialist Power BI delivery, bespoke data visualisation and personalised coaching — built around your needs.</p>
+        </div>
+
+        <div class="services-grid">
+
+          <!-- Pillar 1: End-to-end BI Solutions -->
+          <div class="service-pillar">
+            <div class="service-icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                <path d="M3 5v6c0 1.657 4.029 3 9 3s9-1.343 9-3V5"/>
+                <path d="M3 11v6c0 1.657 4.029 3 9 3s9-1.343 9-3v-6"/>
+              </svg>
+            </div>
+            <h3 class="service-pillar-title">End-to-end BI Solutions</h3>
+            <p class="service-pillar-desc">Complete Power BI solutions from data modelling and DAX through to executive dashboards — delivered end-to-end on contract.</p>
+            <button class="service-expand-btn" aria-expanded="false" aria-controls="detail-bi" data-detail="detail-bi" aria-label="Learn more about End-to-end BI Solutions">
+              <span aria-hidden="true">+</span>
+            </button>
+          </div>
+
+          <!-- Pillar 2: Bespoke Data Visualisation -->
+          <div class="service-pillar">
+            <div class="service-icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <h3 class="service-pillar-title">Bespoke Data Visualisation</h3>
+            <p class="service-pillar-desc">Custom Deneb/Vega-Lite visuals inside Power BI and publication-grade Matplotlib outputs — tailored to your brand and data.</p>
+            <button class="service-expand-btn" aria-expanded="false" aria-controls="detail-viz" data-detail="detail-viz" aria-label="Learn more about Bespoke Data Visualisation">
+              <span aria-hidden="true">+</span>
+            </button>
+          </div>
+
+          <!-- Pillar 3: Power BI report lifting -->
+          <div class="service-pillar">
+            <div class="service-icon-wrap" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </div>
+            <h3 class="service-pillar-title">Power BI Consulting</h3>
+            <p class="service-pillar-desc">Need help with a specific Power BI challenge? From one-off report improvements and performance fixes to short-term advisory work — flexible engagements to fit your needs.</p>
+            <button class="service-expand-btn" aria-expanded="false" aria-controls="detail-coaching" data-detail="detail-coaching" aria-label="Learn more about Power BI Consulting">
+              <span aria-hidden="true">+</span>
+            </button>
+          </div>
+
+          <!-- Detail panel: End-to-end BI Solutions -->
+          <div class="service-detail" id="detail-bi" role="region" aria-label="End-to-end BI Solutions details">
+            <div class="service-detail-inner">
+              <div>
+                <h4 class="font-medium mb-3" style="font-size: 1rem; color: var(--text-dark);">About this service</h4>
+                <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7; margin-bottom: 1.25rem;">
+                  I embed with your team to design, build and deliver complete Power BI solutions — from data modelling and DAX development through to executive dashboards and user adoption. Typically engaged on 3–6 month contracts.
+                </p>
+                <h4 class="font-medium mb-3" style="font-size: 1rem; color: var(--text-dark);">What's included</h4>
+                <ul class="check-list mb-4">
+                  <li>Data model design and implementation</li>
+                  <li>DAX development</li>
+                  <li>Power BI report and dashboard development</li>
+                  <li>Executive and operational reporting</li>
+                  <li>Data transformation and unification in Microsoft Fabric</li>
+                  <li>User adoption and handover</li>
+                </ul>
+                <div class="flex gap-2" style="flex-wrap: wrap;">
+                  <span class="tag-neutral">3–6 month engagements</span>
+                  <span class="tag-neutral">Remote / hybrid / on-site</span>
+                  <span class="tag-neutral">Microsoft Fabric</span>
+                </div>
+              </div>
+              <div>
+                <a href="#contact" class="btn btn-primary">Discuss an engagement</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detail panel: Bespoke Data Visualisation -->
+          <div class="service-detail" id="detail-viz" role="region" aria-label="Bespoke Data Visualisation details">
+            <div class="service-detail-inner">
+              <div>
+                <h4 class="font-medium mb-3" style="font-size: 1rem; color: var(--text-dark);">About this service</h4>
+                <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7; margin-bottom: 1.25rem;">
+                  Off-the-shelf visuals rarely tell the full story. I design and build bespoke, publication-grade visualisations using Deneb/Vega-Lite inside Power BI and Matplotlib for standalone outputs — tailored to your brand, your data and your audience.
+                </p>
+                <h4 class="font-medium mb-3" style="font-size: 1rem; color: var(--text-dark);">What's included</h4>
+                <ul class="check-list mb-4">
+                  <li>Deneb / Vega-Lite custom visuals inside Power BI</li>
+                  <li>Organisational template packages</li>
+                  <li>Publication-grade Matplotlib visualisations</li>
+                  <li>Tailored to your brand and colour palette</li>
+                </ul>
+                <div class="flex gap-2" style="flex-wrap: wrap;">
+                  <span class="tag-neutral">Project-based</span>
+                  <span class="tag-neutral">Priced per visual / project</span>
+                </div>
+              </div>
+              <div>
+                <a href="#contact" class="btn btn-primary">Discuss a project</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detail panel: Power BI Review -->
+          <div class="service-detail" id="detail-coaching" role="region" aria-label="Power BI Consulting details">
+            <div class="service-detail-inner">
+              <div>
+                <h4 class="font-medium mb-3" style="font-size: 1rem; color: var(--text-dark);">About this service</h4>
+                <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7; margin-bottom: 1.25rem;">
+                  Not every problem requires a long contract. Whether you need an existing report improved and optimised, a specific DAX challenge solved, or short-term hands-on help with a Power BI project, I offer flexible, scoped engagements to get the job done. For larger or ongoing needs, that's what service one is for.
+                </p>
+                <h4 class="font-medium mb-3" style="font-size: 1rem; color: var(--text-dark);">What's included</h4>
+                <ul class="check-list mb-4">
+                  <li>Report improvements and visual polish</li>
+                  <li>DAX measure audit and optimisation</li>
+                  <li>Data model and schema review</li>
+                  <li>Performance and refresh bottleneck analysis</li>
+                  <li>Short-term advisory and hands-on delivery</li>
+                </ul>
+                <div class="flex gap-2" style="flex-wrap: wrap;">
+                  <span class="tag-neutral">Remote</span>
+                  <span class="tag-neutral">Fixed-price or day rate</span>
+                  <span class="tag-neutral">One-off or short-term</span>
+                </div>
+              </div>
+              <div>
+                <a href="#contact" class="btn btn-primary">Discuss your project</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PORTFOLIO
+         ============================================================ -->
+    <div id="portfolio" style="scroll-margin-top: 80px;">
+
+      <!-- Portfolio intro -->
+      <div style="background: var(--white); padding: 5rem 0 3rem; border-top: 1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8;" aria-label="Portfolio introduction">
+        <div class="container">
+          <span class="overline">Portfolio</span>
+          <h2 class="section-title" style="max-width: 600px;">Selected work.</h2>
+          <p class="section-subtitle" style="max-width: 520px;">
+            Power BI dashboards, Deneb/Vega-Lite templates and publication-grade visualisations.
+          </p>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div style="background: var(--white); position: sticky; top: 64px; z-index: 50; border-bottom: 1px solid #e8e8e8;">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+          <div class="visuals-filter-bar">
+            <button class="filter-btn active" data-filter="all">Show All</button>
+            <button class="filter-btn" data-filter="scenarios">Real-World Scenarios</button>
+            <button class="filter-btn" data-filter="powerbi">Power BI</button>
+            <button class="filter-btn" data-filter="deneb">Deneb</button>
+            <button class="filter-btn" data-filter="matplotlib">Matplotlib</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- REAL-WORLD SCENARIOS ---- -->
+      <div id="contributions-panel">
+      <section class="section scroll-target-deep" id="contributions" style="background: var(--light-bg);" aria-labelledby="contributions-heading">
+        <div class="container">
+
+          <span class="overline">00</span>
+          <h2 class="section-title mb-2" id="contributions-heading">Real-World Scenarios</h2>
+          <p class="section-subtitle mb-10">
+            Selected end-to-end projects demonstrating business impact.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 2rem;">
+
+            <!-- Contribution 1 -->
+            <article class="contribution-card">
+              <div class="contribution-header">
+                <div>
+                  <h3 class="contribution-title">Data Architecture Reconciliation across Two Systems</h3>
+                  <span class="contribution-role">Senior BI Developer</span>
+                </div>
+                <div class="flex gap-2" style="flex-wrap: wrap; justify-content: flex-end;">
+                  <span class="tag-neutral">Microsoft Fabric</span>
+                  <span class="tag-neutral">Notebooks</span>
+                  <span class="tag-neutral">SQL</span>
+                  <span class="tag-neutral">Lakehouse</span>
+                </div>
+              </div>
+              <div class="contribution-body">
+                <div class="contribution-block">
+                  <span class="contribution-label">Challenge</span>
+                  <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7;">
+                    Company had two parallel databases with different architectures and reporting logic, leading to inconsistent reports, manual reconciliation and delayed insights.
+                  </p>
+                </div>
+                <div class="contribution-block">
+                  <span class="contribution-label">Action</span>
+                  <ul class="check-list">
+                    <li>Implemented a unified data architecture to reconcile the two systems.</li>
+                    <li>Developed pipeline and ETL processes to ensure data consistency and accuracy.</li>
+                    <li>Processes written in Fabric notebooks for increased collaboration, maintainability and documentation.</li>
+                  </ul>
+                </div>
+                <div class="contribution-block contribution-result-block">
+                  <span class="contribution-label">Result</span>
+                  <ul class="check-list">
+                    <li>Successfully reconciled data across both systems, ensuring consistent and accurate reporting.</li>
+                    <li>One source of truth integrated in the Microsoft ecosystem.</li>
+                    <li>Company can now have a reconciled view of their data for better decision-making.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <!-- Contribution 2 -->
+            <article class="contribution-card">
+              <div class="contribution-header">
+                <div>
+                  <h3 class="contribution-title">New BI Product for Clients</h3>
+                  <span class="contribution-role">Lead Developer · Concept Owner</span>
+                </div>
+                <div class="flex gap-2" style="flex-wrap: wrap; justify-content: flex-end;">
+                  <span class="tag-neutral">Power BI</span>
+                  <span class="tag-neutral">Power Query</span>
+                  <span class="tag-neutral">DAX</span>
+
+                </div>
+              </div>
+              <div class="contribution-body">
+                <div class="contribution-block">
+                  <span class="contribution-label">Challenge</span>
+                  <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7;">
+                    Company were delivering bespoke dashboards to clients but had no standardised product offering, leading to high development time and limited scalability.
+                  </p>
+                </div>
+                <div class="contribution-block">
+                  <span class="contribution-label">Action</span>
+                  <ul class="check-list">
+                    <li>Conceived and developed a standardised BI product for clients.</li>
+                    <li>Automation of the creation process to minimize manual effort and errors.</li>
+                    <li>Collaboration with manager and sales team to ship the offering to clients.</li>
+                  </ul>
+                </div>
+                <div class="contribution-block contribution-result-block">
+                  <span class="contribution-label">Result</span>
+                  <ul class="check-list">
+                    <li>Product actively adopted by multiple clients, generating repeat business.</li>
+                    <li>Positive client feedback received throughout.</li>
+                    <li>Company now selling this product commercially, creating new revenue streams.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <!-- Contribution 3 -->
+            <article class="contribution-card">
+              <div class="contribution-header">
+                <div>
+                  <h3 class="contribution-title">Time-consuming report automation</h3>
+                  <span class="contribution-role">Lead Developer</span>
+                </div>
+                <div class="flex gap-2" style="flex-wrap: wrap; justify-content: flex-end;">
+                  <span class="tag-neutral">Python</span>
+                  <span class="tag-neutral">Excel</span>
+                </div>
+              </div>
+              <div class="contribution-body">
+                <div class="contribution-block">
+                  <span class="contribution-label">Challenge</span>
+                  <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7;">
+                    A team member was spending 4 hours every week manually importing data from multiple sources into Excel, performing transformations and generating reports, a lengthy process prone to errors and delays.
+                  </p>
+                </div>
+                <div class="contribution-block">
+                  <span class="contribution-label">Action</span>
+                  <ul class="check-list">
+                    <li>Automated the data import and transformation process using Python scripts.</li>
+                    <li>Automated report generation via Python scripts.</li>
+                  </ul>
+                </div>
+                <div class="contribution-block contribution-result-block">
+                  <span class="contribution-label">Result</span>
+                  <ul class="check-list">
+                    <li>Saved 3 and a half hours per week for the team.</li>
+                    <li>Reduced errors and delays in report generation.</li>
+                    <li>Freed up time for more strategic tasks.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+      </div><!-- /#contributions-panel -->
+
+      <!-- ---- POWER BI DASHBOARDS ---- -->
+      <div class="visuals-group" data-group="powerbi">
+      <section class="section scroll-target-deep" id="dashboards" style="background: var(--white);" aria-labelledby="dashboards-heading">
+        <div class="container">
+
+          <span class="overline">01</span>
+          <h2 class="section-title mb-2" id="dashboards-heading">Power BI Dashboards</h2>
+          <p class="section-subtitle mb-10">
+            End-to-end showcase pieces built on open or synthetic datasets — demonstrating data modelling, DAX, design and Deneb integration.
+          </p>
+
+          <div class="grid-2" style="gap: 2rem;">
+
+            <!-- Dashboard 1 -->
+            <article class="portfolio-card">
+              <button class="lightbox-trigger" aria-label="View Dashboard 1 full size" data-lightbox-src="img/pbi/pbi_portfolio_1.png" data-lightbox-alt="Power BI Dashboard 1">
+                <img src="img/pbi/pbi_portfolio_1.png" alt="Power BI Dashboard 1" style="width:100%; display:block;" />
+              </button>
+              <div class="portfolio-card-body">
+                <h3 class="font-medium mb-2" style="font-size: 1.0625rem;">
+                  Carbon Emissions Reporting
+                </h3>
+                <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7; margin-bottom: 1rem;">
+                  Customer facing platform for tracking and reporting carbon emissions — featuring complex data modelling and DAX measures.
+                </p>
+                <div class="flex gap-2 mb-4" style="flex-wrap: wrap;">
+                  <span class="tag-neutral">Power BI</span>
+                  <span class="tag-neutral">Customer Delivery</span>
+                  <span class="tag-neutral">Linear Regression Analysis</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Dashboard 2 -->
+            <article class="portfolio-card">
+              <button class="lightbox-trigger" aria-label="View Dashboard 2 full size" data-lightbox-src="img/pbi/pbi_portfolio_2.png" data-lightbox-alt="Power BI Dashboard 2">
+                <img src="img/pbi/pbi_portfolio_2.png" alt="Power BI Dashboard 2" style="width:100%; display:block;" />
+              </button>
+              <div class="portfolio-card-body">
+                <h3 class="font-medium mb-2" style="font-size: 1.0625rem;">
+                  Salesforce Analytics Dashboard
+                </h3>
+                <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7; margin-bottom: 1rem;">
+                  Summary dashboard for Salesforce data, providing insights into sales performance and customer engagement.
+                </p>
+                <div class="flex gap-2 mb-4" style="flex-wrap: wrap;">
+                  <span class="tag-neutral">Power BI</span>
+                  <span class="tag-neutral">Dashboard</span>
+                  <span class="tag-neutral">Executive</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Dashboard 3 -->
+            <article class="portfolio-card">
+              <button class="lightbox-trigger" aria-label="View Dashboard 3 full size" data-lightbox-src="img/pbi/pbi_portfolio_3.png" data-lightbox-alt="Power BI Dashboard 3">
+                <img src="img/pbi/pbi_portfolio_3.png" alt="Power BI Dashboard 3" style="width:100%; display:block;" />
+              </button>
+              <div class="portfolio-card-body">
+                <h3 class="font-medium mb-2" style="font-size: 1.0625rem;">
+                  Pre-visit Energy Usage Report
+                </h3>
+                <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7; margin-bottom: 1rem;">
+                  Pre-visit energy usage report, providing insights into energy consumption patterns and identifying potential savings opportunities.
+                </p>
+                <div class="flex gap-2 mb-4" style="flex-wrap: wrap;">
+                  <span class="tag-neutral">Technical</span>
+                  <span class="tag-neutral">Report</span>
+                  <span class="tag-neutral">DAX</span>
+                  <span class="tag-neutral">Linear Regression Analysis</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Dashboard 4 -->
+            <article class="portfolio-card">
+              <button class="lightbox-trigger" aria-label="View Dashboard 4 full size" data-lightbox-src="img/pbi/pbi_portfolio_4.png" data-lightbox-alt="Power BI Dashboard 4">
+                <img src="img/pbi/pbi_portfolio_4.png" alt="Power BI Dashboard 4" style="width:100%; display:block;" />
+              </button>
+              <div class="portfolio-card-body">
+                <h3 class="font-medium mb-2" style="font-size: 1.0625rem;">
+                  Saving Opportunities Dashboard
+                </h3>
+                <p style="color: var(--text-body); font-size: 0.9375rem; line-height: 1.7; margin-bottom: 1rem;">
+                  Dashboard highlighting savings achievements, raw savings and share of savings
+                </p>
+                <div class="flex gap-2 mb-4" style="flex-wrap: wrap;">
+                  <span class="tag-neutral">Power BI</span>
+                  <span class="tag-neutral">Technical Summary</span>
+                  <span class="tag-neutral">Deneb</span>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <div class="nda-note mt-10" role="note">
+            <strong style="font-style: normal; color: var(--text-dark);">Client work:</strong>
+            Where NDAs apply, client engagements are referenced descriptively. For example: <em>"Delivered an end-to-end Power BI solution for a FTSE 250 retail business — including data model design, DAX development and executive dashboards."</em>
+            <!-- ✏️ Replace the example with your actual NDA client references -->
+          </div>
+
+        </div>
+      </section>
+      </div><!-- /.visuals-group[powerbi] -->
+
+      <div class="visuals-group" data-group="deneb">
+      <!-- ---- DENEB / VEGA-LITE TEMPLATES ---- -->
+      <section class="section scroll-target-deep" id="deneb" style="background: var(--light-bg);" aria-labelledby="deneb-portfolio-heading">
+        <div class="container">
+
+          <span class="overline">02</span>
+          <h2 class="section-title mb-2" id="deneb-portfolio-heading">Deneb / Vega-Lite Templates</h2>
+          <p class="section-subtitle mb-2">
+            Custom Deneb / Vega-Lite templates built for Power BI and shared with the community.
+          </p>
+          <p style="margin-bottom: 2.5rem; font-size: 0.9375rem;">
+            <a href="https://github.com/clemviz/Deneb-Templates" target="_blank" rel="noopener noreferrer">See the JSON templates on my GitHub �, </a>
+          </p>
+
+          <div class="grid-4">
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View Basic Histogram full size" data-lightbox-src="img/deneb/basic_histogram.png" data-lightbox-alt="Basic Histogram">
+                <div class="template-thumb">
+                  <img src="img/deneb/basic_histogram.png" alt="Basic Histogram" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">Basic Histogram</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">Clean frequency distribution histogram for continuous data exploration.</p>
+              </div>
+            </article>
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View Brush Line Chart full size" data-lightbox-src="img/deneb/brush_line_chart.png" data-lightbox-alt="Brush Line Chart">
+                <div class="template-thumb">
+                  <img src="img/deneb/brush_line_chart.png" alt="Brush Line Chart" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">Brush Line Chart</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">Interactive line chart with a brush selector for zooming into time ranges.</p>
+              </div>
+            </article>
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View Calendar Heatmap + Histogram full size" data-lightbox-src="img/deneb/combo_calendar_heatmap_histo.png" data-lightbox-alt="Calendar Heatmap + Histogram">
+                <div class="template-thumb">
+                  <img src="img/deneb/combo_calendar_heatmap_histo.png" alt="Calendar Heatmap + Histogram" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">Calendar Heatmap + Histogram</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">Combo visual pairing a calendar heatmap with a distribution histogram.</p>
+              </div>
+            </article>
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View Hourly Heatmap + Bars full size" data-lightbox-src="img/deneb/combo_hourly_heatmap_bars.png" data-lightbox-alt="Hourly Heatmap + Bars">
+                <div class="template-thumb">
+                  <img src="img/deneb/combo_hourly_heatmap_bars.png" alt="Hourly Heatmap + Bars" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">Hourly Heatmap + Bars</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">Hour-of-day heatmap combined with bar totals for pattern detection.</p>
+              </div>
+            </article>
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View Hourly Heatmap + Histogram full size" data-lightbox-src="img/deneb/combo_hourly_heatmap_histo.png" data-lightbox-alt="Hourly Heatmap + Histogram">
+                <div class="template-thumb">
+                  <img src="img/deneb/combo_hourly_heatmap_histo.png" alt="Hourly Heatmap + Histogram" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">Hourly Heatmap + Histogram</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">Hour-of-day heatmap paired with a histogram for time-based frequency analysis.</p>
+              </div>
+            </article>
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View Faceted Line Chart (Daily) full size" data-lightbox-src="img/deneb/faceted_line_chart_day.png" data-lightbox-alt="Faceted Line Chart (Daily)">
+                <div class="template-thumb">
+                  <img src="img/deneb/faceted_line_chart_day.png" alt="Faceted Line Chart (Daily)" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">Faceted Line Chart (Daily)</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">Small-multiple line charts faceted by category for side-by-side daily trend comparison.</p>
+              </div>
+            </article>
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View KPI Card + Area Chart full size" data-lightbox-src="img/deneb/kpi_card_area.png" data-lightbox-alt="KPI Card + Area Chart">
+                <div class="template-thumb">
+                  <img src="img/deneb/kpi_card_area.png" alt="KPI Card + Area Chart" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">KPI Card + Area Chart</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">KPI summary card with an embedded area sparkline for at-a-glance trend context.</p>
+              </div>
+            </article>
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View Linear Regression + Pointer full size" data-lightbox-src="img/deneb/linear_reg_pointer.png" data-lightbox-alt="Linear Regression + Pointer">
+                <div class="template-thumb">
+                  <img src="img/deneb/linear_reg_pointer.png" alt="Linear Regression + Pointer" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">Linear Regression + Pointer</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">Scatter plot with an overlay regression line and interactive pointer tooltip.</p>
+              </div>
+            </article>
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View Shaded Line Chart + Tooltip full size" data-lightbox-src="img/deneb/shaded_line_chart_tooltip.png" data-lightbox-alt="Shaded Line Chart + Tooltip">
+                <div class="template-thumb">
+                  <img src="img/deneb/shaded_line_chart_tooltip.png" alt="Shaded Line Chart + Tooltip" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">Shaded Line Chart + Tooltip</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">Line chart with a confidence / range shaded band and a rich hover tooltip.</p>
+              </div>
+            </article>
+
+            <article class="template-card">
+              <button class="lightbox-trigger" aria-label="View Fancy Bar Chart (Car) full size" data-lightbox-src="img/deneb/fancy_bar_chart_car.png" data-lightbox-alt="Fancy Bar Chart (Car)">
+                <div class="template-thumb">
+                  <img src="img/deneb/fancy_bar_chart_car.png" alt="Fancy Bar Chart (Car)" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                </div>
+              </button>
+              <div class="template-card-body">
+                <h3 class="font-medium mb-1" style="font-size: 0.9375rem; color: var(--text-dark);">Fancy Bar Chart (Car)</h3>
+                <p style="font-size: 0.8125rem; color: var(--text-body); line-height: 1.6; margin-bottom: 0.75rem;">Stylised bar chart using automotive data with custom formatting and visual polish.</p>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+      </div><!-- /.visuals-group[deneb] -->
+
+      <div class="visuals-group" data-group="matplotlib">
+      <!-- ---- PUBLICATION-GRADE VISUALISATIONS (MATPLOTLIB) ---- -->
+      <section class="section scroll-target-deep" id="matplotlib" style="background: var(--white);" aria-labelledby="matplotlib-heading">
+        <div class="container">
+
+          <span class="overline">03</span>
+          <h2 class="section-title mb-2" id="matplotlib-heading">Publication-grade Visualisations</h2>
+          <p class="section-subtitle mb-10">
+            Print-ready, bespoke data visualisations built with Matplotlib for reports, boardroom presentations and publications.
+          </p>
+
+          <div class="matplot-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+
+            <!-- Lightbox overlay -->
+            <div id="lightbox" class="lightbox-overlay" role="dialog" aria-modal="true" aria-label="Image lightbox">
+              <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+              <img id="lightbox-img" src="" alt="" />
+            </div>
+
+            <!-- Visual 01 -->
+            <article class="matplot-card">
+              <button class="lightbox-trigger" aria-label="View CO2 emissions per capita full size" data-lightbox-src="img/dataviz/co2_emissions_per_capita.png" data-lightbox-alt="CO2 emissions per capita">
+                <div class="matplot-image">
+                  <img src="img/dataviz/co2_emissions_per_capita.png" alt="CO2 emissions per capita" style="width: 100%; height: 100%; object-fit: contain; display: block;" />
+                </div>
+              </button>
+            </article>
+
+            <!-- Visual 02 -->
+            <article class="matplot-card">
+              <button class="lightbox-trigger" aria-label="View Lake Windermere full size" data-lightbox-src="img/dataviz/lake_windermere.png" data-lightbox-alt="Lake Windermere">
+                <div class="matplot-image">
+                  <img src="img/dataviz/lake_windermere.png" alt="Lake Windermere" style="width: 100%; height: 100%; object-fit: contain; display: block;" />
+                </div>
+              </button>
+            </article>
+
+            <!-- Visual 03 -->
+            <article class="matplot-card">
+              <button class="lightbox-trigger" aria-label="View Wainwrights deep gray full size" data-lightbox-src="img/dataviz/wainwrights_deepgray.png" data-lightbox-alt="Wainwrights deep gray">
+                <div class="matplot-image">
+                  <img src="img/dataviz/wainwrights_deepgray.png" alt="Wainwrights deep gray" style="width: 100%; height: 100%; object-fit: contain; display: block;" />
+                </div>
+              </button>
+            </article>
+
+            <!-- Visual 04 -->
+            <article class="matplot-card">
+              <button class="lightbox-trigger" aria-label="View Google Trends: Power BI vs Tableau full size" data-lightbox-src="img/dataviz/google_trends_pbi_vs_tableau.png" data-lightbox-alt="Google Trends: Power BI vs Tableau">
+                <div class="matplot-image">
+                  <img src="img/dataviz/google_trends_pbi_vs_tableau.png" alt="Google Trends: Power BI vs Tableau" style="width: 100%; height: 100%; object-fit: contain; display: block;" />
+                </div>
+              </button>
+            </article>
+
+          </div>
+        </div>
+      </section>
+      </div><!-- /.visuals-group[matplotlib] -->
+
+    </div><!-- /#portfolio -->
+
+    <!-- ============================================================
+         CONTACT
+         ============================================================ -->
+    <section id="contact" class="scroll-target" style="background: var(--dark); border-top: 1px solid var(--border); padding: 5rem 0;" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="grid-2" style="gap: 4rem; align-items: start;">
+
+          <!-- Left: Form -->
+          <div>
+            <span class="overline">Contact</span>
+            <h2 class="section-title-light mb-2" id="contact-heading">Let's talk.</h2>
+            <p style="color: var(--body-grey); font-size: 0.9375rem; margin-bottom: 2rem; line-height: 1.7;">
+              Interested in working together on a Power BI project or bespoke data visualisation? Fill in the form and I'll get back to you as soon as possible.
+            </p>
+
+            <!--
+              ✏️ FORMSPREE SETUP:
+              1. Sign up at formspree.io (free tier is fine)
+              2. Create a new form and copy your form ID
+              3. Replace YOUR_FORM_ID below with your actual ID
+            -->
+            <form
+              id="contact-form"
+              action="https://formspree.io/f/YOUR_FORM_ID"
+              method="POST"
+              novalidate
+            >
+              <!-- Hidden subject line for your inbox -->
+              <input type="hidden" name="_subject" value="New enquiry via clementvillalard.com" />
+              <!-- Honeypot spam protection -->
+              <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name" class="form-label">Name <span style="color: var(--teal);" aria-hidden="true">*</span></label>
+                  <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required autocomplete="name" />
+                </div>
+                <div class="form-group">
+                  <label for="company" class="form-label">Company</label>
+                  <input type="text" id="company" name="company" class="form-input" placeholder="Your company (optional)" autocomplete="organization" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-label">Email <span style="color: var(--teal);" aria-hidden="true">*</span></label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required autocomplete="email" />
+              </div>
+
+              <div class="form-group">
+                <label for="enquiry-type" class="form-label">Type of enquiry <span style="color: var(--teal);" aria-hidden="true">*</span></label>
+                <select id="enquiry-type" name="enquiry_type" class="form-select" required>
+                  <option value="" disabled selected>Select an option…</option>
+                  <option value="Project">Power BI project</option>
+                  <option value="Visualisation project">Deneb/Vega-Lite visualisation project</option>
+                  <option value="Contract">Bespoke Data Visualisation</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">Message <span style="color: var(--teal);" aria-hidden="true">*</span></label>
+                <textarea
+                  id="message"
+                  name="message"
+                  class="form-textarea"
+                  placeholder="Tell me about your project or contract — what you're looking for, timelines, any relevant context."
+                  required
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-full" style="margin-top: 0.5rem; text-align: center;">
+                Send message
+              </button>
+
+            </form>
+
+            <!-- Success state -->
+            <div id="form-success" class="form-success" role="alert" aria-live="polite">
+              <div class="form-success-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <h3 class="font-medium mb-2" style="font-size: 1.125rem; color: var(--white);">Message sent</h3>
+              <p style="color: var(--body-grey); font-size: 0.9375rem;">Thanks for getting in touch. I'll get back to you within two business days.</p>
+            </div>
+          </div>
+
+          <!-- Right: Info panel -->
+          <div>
+
+            <!-- Photo placeholder — replace src with your approachable portrait -->
+            <div style="margin-bottom: 1.5rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 4/3; background: rgba(255,255,255,0.04); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; color: #555;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.25" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+              <span style="font-size: 0.8125rem;">Your photo here</span>
+              <span style="font-size: 0.7rem; color: #444;">Recommended: friendly portrait, 800�, 600px+</span>
+            </div>
+
+            <div class="card-dark" style="margin-bottom: 1.5rem;">
+              <span class="overline">What I can help with</span>
+              <p style="font-size: 0.9rem; color: var(--body-grey); line-height: 1.7;">
+                Power BI engagements — end-to-end delivery, data modelling, DAX and dashboards — and bespoke data visualisation projects, including Deneb/Vega-Lite templates and publication-grade Matplotlib outputs.
+              </p>
+            </div>
+
+            <div class="card-dark" style="margin-bottom: 1.5rem;">
+              <span class="overline">LinkedIn</span>
+              <p style="font-size: 0.9rem; color: var(--body-grey); line-height: 1.7; margin-bottom: 1rem;">
+                Connect with me on LinkedIn to see my latest work and templates.
+              </p>
+              <!-- ✏️ Replace with your LinkedIn URL -->
+              <a
+                href="https://linkedin.com/in/[your-linkedin-handle]"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline-white"
+                style="padding: 0.625rem 1.25rem; font-size: 0.875rem;"
+              >
+                LinkedIn profile �, 
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="text-xs" style="color: #555;">© 2026 Clément Villalard. All rights reserved.</p>
+        <p class="footer-tagline">Elevate your insights</p>
+        <div class="hero-social">
+          <a href="https://www.linkedin.com/in/clementvillalard" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="LinkedIn profile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/clemviz" target="_blank" rel="noopener noreferrer" class="hero-social-link" aria-label="GitHub profile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
