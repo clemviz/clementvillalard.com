@@ -235,7 +235,7 @@ a { color: var(--teal); }
   margin-bottom: 0.5rem;
 }
 .section-subtitle       { font-size: 1.05rem; color: var(--text-body);   max-width: 560px; line-height: 1.7; }
-.section-subtitle-light { font-size: 1.05rem; color: var(--body-grey);   max-width: 560px; line-height: 1.7; }
+.section-subtitle-light { font-size: 1.05rem; color: #d0d0d0;   max-width: 560px; line-height: 1.7; }
 .section-subtitle-light b,
 .section-subtitle-light strong { color: #e0e0e0; }
 
